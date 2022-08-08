@@ -24,10 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         viewPager.adapter = QuotesPagerAdapter(
-            listOf(
-                Quote("나는 생각한다. 고로나느 존재한다.", "데카르트")
-            )
-        )
+            listOf(Quote("나는 생각한다. 고로나느 존재한다.", "데카르트")))
     }
 
 }
