@@ -1,15 +1,18 @@
 package com.restart.famoussaying.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.restart.famoussaying.R
 import com.restart.famoussaying.data.Quote
 
 class QuotesPagerAdapter(
-    private val quotes: List<Quote>
+    private val quotes: List<Quote>,
+    private val isNameRevealed: Boolean
 ) : RecyclerView.Adapter<QuotesPagerAdapter.QuoteViewHolder>() {
 
 
@@ -19,11 +22,12 @@ class QuotesPagerAdapter(
         )
 
     override fun onBindViewHolder(holder: QuoteViewHolder, position: Int) {
+        val actualPosition = position % quotes.size
 
-        holder.bind(quotes[position])
+        holder.bind(quotes[actualPosition], isNameRevealed)
     }
 
-    override fun getItemCount() = quotes.size
+    override fun getItemCount() = Int.MAX_VALUE
 
 
     class QuoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -31,9 +35,17 @@ class QuotesPagerAdapter(
         private val quoteTextview: TextView = itemView.findViewById(R.id.quoteTextView)
         private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
 
-        fun bind(quote: Quote){
-            quoteTextview.text = quote.quote
-            nameTextView.text = quote.name
+        @SuppressLint("SetTextI18n")
+        fun bind(quote: Quote, isNameRevealed: Boolean){
+            quoteTextview.text = "\"${quote.quote}\""
+
+            if (isNameRevealed){
+
+                nameTextView.text = "- ${quote.name}"
+                nameTextView.isVisible = true
+            } else {
+                nameTextView.isVisible = false
+            }
         }
     }
 
